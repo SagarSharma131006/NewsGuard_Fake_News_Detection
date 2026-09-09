@@ -1,0 +1,44 @@
+# Python
+__pycache__/
+*.py[cod]
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# Dataset
+data/raw/
+*.tsv
+*.zip
+
+# Processed datasets
+data/processed/*.csv
+
+# Trained models
+models/*.pkl
+models/*.joblib
+models/*.pt
+models/*.pth
+models/*.h5
+
+# Predictions
+results/predictions/
+
+# MLflow
+mlruns/*
+!mlruns/.gitkeep
+
+# Environment / secrets
+.env
+*.env
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
