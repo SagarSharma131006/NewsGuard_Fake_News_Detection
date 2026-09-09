@@ -1,81 +1,98 @@
 # 🛡️ NewsGuard — Fake News Detection & Credibility Scoring
 
 ## 📌 Project Status
-**Day 1 / 10 — Dataset Setup & Exploratory Data Analysis**
 
-## 🎯 Objective
+**Day 2 / 10 — Dataset Setup, EDA & Text Preprocessing**
+
 NewsGuard is an end-to-end NLP system for detecting fake news and generating a credibility score.
 
-The project will:
+---
+
+## 🎯 Objective
+
+The project aims to build a complete fake news detection pipeline that will:
+
 - Preprocess news text
 - Extract TF-IDF features
 - Generate Word2Vec embeddings
-- Calculate readability and sentiment features
+- Calculate readability features
+- Calculate sentiment features
+- Include article length features
 - Compare multiple machine learning classifiers
+- Evaluate models using stratified cross-validation
 - Explain predictions using SHAP
+- Generate a credibility score
 - Deploy the best model through a Flask REST API
 - Provide an interactive Gradio interface
+
+---
 
 ## 📊 Dataset
 
 ### LIAR Dataset
+
 The project uses the official LIAR dataset.
 
-Original dataset:
-- Train: 10,240
-- Validation: 1,284
-- Test: 1,267
-- Total: 12,791
+### Original Dataset
 
-After removing duplicate statements:
-- Total samples: 12,765
-- Fake: 8,263
-- Real: 4,502
+| Split | Samples |
+|---|---:|
+| Train | 10,240 |
+| Validation | 1,284 |
+| Test | 1,267 |
+| **Total** | **12,791** |
 
-### Binary Label Mapping
+### After Duplicate Removal
 
-For this project, the original six LIAR labels are converted into binary classes:
+26 duplicate statements were removed.
 
-**Fake**
-- pants-fire
-- false
-- barely-true
-- half-true
+| Class | Samples | Percentage |
+|---|---:|---:|
+| Fake | 8,263 | 64.73% |
+| Real | 4,502 | 35.27% |
+| **Total** | **12,765** | **100%** |
 
-**Real**
-- mostly-true
-- true
+---
 
-This binary mapping is a project-level design choice.
+## 🔄 Binary Label Mapping
 
-## 🏗️ Planned Pipeline
+The original LIAR dataset contains six truthfulness labels.
+
+For this project, they are converted into two classes.
+
+### Fake
+
+- `pants-fire`
+- `false`
+- `barely-true`
+- `half-true`
+
+### Real
+
+- `mostly-true`
+- `true`
+
+> This binary mapping is a project-level design choice and is not the native LIAR classification scheme.
+
+---
+
+## 🧹 Day 2 — Text Preprocessing
+
+The following preprocessing pipeline has been implemented:
 
 ```text
-Raw LIAR Dataset
-       ↓
-Data Cleaning
-       ↓
-Text Preprocessing
-       ↓
-Feature Engineering
-       ├── TF-IDF
-       ├── Word2Vec
-       ├── Readability
-       ├── Sentiment
-       └── Article Length
-       ↓
-FeatureUnion
-       ↓
-Multiple ML Models
-       ↓
-5-Fold Cross Validation
-       ↓
-Best Model
-       ↓
-SHAP Explainability
-       ↓
-Credibility Score
-       ↓
-Flask REST API
-       ↓
-Gradio UI
+Raw Statement
+      ↓
+Lowercase Conversion
+      ↓
+URL Removal
+      ↓
+Punctuation Removal
+      ↓
+Tokenization
+      ↓
+Stopword Removal
+      ↓
+SpaCy Lemmatization
+      ↓
+Cleaned Statement
