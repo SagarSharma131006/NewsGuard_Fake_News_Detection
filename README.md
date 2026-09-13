@@ -1,469 +1,378 @@
+'''
 # NewsGuard — Fake News Detection & Credibility Scoring System
 
-NewsGuard is an NLP-based fake news detection system designed to classify news articles as **Real** or **Fake** using multiple textual, linguistic, readability, sentiment, and semantic features.
+## Project Overview
 
-The project follows an end-to-end machine learning workflow covering dataset preparation, preprocessing, feature engineering, baseline modeling, advanced model comparison, hyperparameter tuning, held-out evaluation, and SHAP-based explainability.
+NewsGuard is an end-to-end NLP-based fake news detection and credibility scoring system.
 
-> **Project Status:** Day 1–Day 8 completed. Flask API, Gradio UI, MLflow tracking, automated testing, model card, and final documentation are planned next.
+The system combines:
 
----
+- TF-IDF text features
+- Word2Vec embeddings
+- Readability features
+- Sentiment analysis
+- Linguistic features
+- Multiple machine learning models
+- XGBoost hyperparameter tuning
+- SHAP explainability
+- Flask REST API
+- Gradio interface
+- MLflow experiment tracking
+- Automated testing
+- External validation on WELFake
 
-## 🎯 Project Objective
-
-The goal of NewsGuard is to build a reproducible fake-news detection pipeline that can:
-
-* Detect whether a news article is Real or Fake
-* Combine multiple NLP feature types
-* Compare different machine learning models
-* Tune the best-performing model
-* Evaluate the final model on unseen data
-* Explain predictions using SHAP
-* Generate a credibility-oriented score
-* Provide predictions through an API and interactive UI
-* Maintain reproducible ML artifacts throughout development
-
----
-
-## 📊 Dataset
-
-The project uses the **Fake and Real News Dataset** from Kaggle.
-
-**Dataset:** Fake and Real News Dataset
-
-**Source:**
-https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
-
-The original dataset contains:
-
-* `Fake.csv`
-* `True.csv`
-
-The raw dataset is **not stored in this repository** because of its size.
-
-### Cleaned Dataset
-
-After duplicate removal and preparation:
-
-* Total articles: **39,103**
-* Real articles: **21,196**
-* Fake articles: **17,907**
-
-### Data Split
-
-A stratified 80/10/10 split was created:
-
-| Split      | Samples |
-| ---------- | ------: |
-| Training   |  31,282 |
-| Validation |   3,910 |
-| Test       |   3,911 |
-
-The train, validation, and test sets were checked for content overlap.
+The system predicts whether an article is Fake or Real and generates a credibility score from 0–100 based on the predicted probability of the Real class.
 
 ---
 
-# 🛠️ Technology Stack
+## Dataset
 
-* Python
-* Pandas
-* NumPy
-* SciPy
-* Scikit-learn
-* NLTK
-* Gensim
-* TextStat
-* TextBlob
-* XGBoost
-* SHAP
-* Flask
-* Gradio
-* MLflow
-* PyTest
-* Jupyter
-* Google Colab
+Primary dataset:
+
+Kaggle — Fake and Real News Dataset
+
+After duplicate/content cleaning:
+
+- Total articles: 39,103
+- Training: 31,282
+- Validation: 3,910
+- Test: 3,911
+
+The dataset was split using stratified sampling with an 80/10/10 ratio.
+
+The subject and date columns were removed because they introduced strong source/label leakage.
 
 ---
 
-# 📅 Development Progress
+# Development Progress
 
-## Day 1 — Dataset Setup & EDA ✅
+## Day 1 — Dataset Setup & EDA
 
 Completed:
 
-* Dataset extraction and loading
-* Dataset structure inspection
-* Missing-value analysis
-* Duplicate analysis
-* Subject/category leakage analysis
-* Removal of leakage-prone columns
-* Duplicate content removal
-* Article length analysis
-* Stratified train/validation/test split
-* Cross-split overlap verification
-* Dataset integrity checks
+- Dataset loading
+- Missing-value analysis
+- Duplicate analysis
+- Class distribution
+- Subject/source leakage investigation
+- Content construction
+- Exact duplicate removal
+- Stratified train/validation/test split
+- Split integrity verification
 
-Final cleaned dataset:
+Final dataset:
 
-**39,103 articles**
+39,103 articles
 
 ---
 
-## Day 2 — Text Preprocessing ✅
+## Day 2 — Text Preprocessing
 
 Implemented:
 
-* HTML entity decoding
-* Unicode normalization
-* HTML removal
-* URL and email handling
-* Lowercasing
-* Control-character removal
-* Punctuation normalization
-* Whitespace normalization
-* Markdown/raw URL handling
-* Empty-text handling
+- HTML removal
+- Unicode normalization
+- URL handling
+- Email handling
+- Lowercasing
+- Control-character removal
+- Punctuation normalization
+- Whitespace normalization
+- Empty-text handling
 
-Final verification:
+Final preprocessing integrity:
 
-* Empty texts: **0**
-* Null cleaned texts: **0**
-* Remaining raw URLs: **0**
-
-Both original and cleaned text were retained for reproducibility.
+- Empty cleaned texts: 0
+- Null cleaned texts: 0
 
 ---
 
-## Day 3 — TF-IDF Feature Engineering ✅
+## Day 3 — TF-IDF Feature Engineering
 
 TF-IDF configuration:
 
-* Unigrams + bigrams
-* Maximum features: **5,000**
-* `min_df = 2`
-* `max_df = 0.95`
-* Sublinear TF scaling
-* Vocabulary fitted only on training data
+- Maximum features: 5,000
+- N-grams: unigram + bigram
+- min_df = 2
+- max_df = 0.95
+- Sublinear TF enabled
 
-### TF-IDF Matrix
+Feature matrices:
 
-| Split      |          Shape |
-| ---------- | -------------: |
-| Train      | 31,282 × 5,000 |
-| Validation |  3,910 × 5,000 |
-| Test       |  3,911 × 5,000 |
+- Train: 31,282 × 5,000
+- Validation: 3,910 × 5,000
+- Test: 3,911 × 5,000
 
 ---
 
-## Day 4 — Auxiliary NLP Features ✅
+## Day 4 — Auxiliary NLP Features
 
-Additional NLP features were engineered using semantic, readability, sentiment, and linguistic information.
+Created 115 auxiliary features:
 
 ### Word2Vec
 
-* Vector size: **100**
-* Window: **5**
-* Minimum word count: **2**
-* Skip-gram: **Yes**
-* Epochs: **2**
-* Seed: **42**
+- 100-dimensional sentence vectors
+- Vocabulary: 129,860
 
-Document-level representation:
+### Readability
 
-**100 features**
+- Flesch Reading Ease
+- Flesch-Kincaid Grade
+- Gunning Fog
+- Automated Readability Index
 
-### Readability Features
+### Sentiment
 
-* Flesch Reading Ease
-* Flesch-Kincaid Grade
-* Gunning Fog Index
-* Automated Readability Index
+- TextBlob polarity
+- TextBlob subjectivity
 
-**4 features**
+### Linguistic
 
-### Sentiment Features
+- Word count
+- Character count
+- Sentence count
+- Average word length
+- Average sentence length
+- Unique word ratio
+- Digit count
+- Uppercase count
+- Punctuation count
 
-Using TextBlob:
+Total:
 
-* Polarity
-* Subjectivity
-
-**2 features**
-
-### Linguistic Features
-
-* Word Count
-* Character Count
-* Sentence Count
-* Average Word Length
-* Average Sentence Length
-* Unique Word Ratio
-* Digit Count
-* Uppercase Count
-* Punctuation Count
-
-**9 features**
-
-### Total Auxiliary Features
-
-**100 + 4 + 2 + 9 = 115 features**
-
-| Split      |        Shape |
-| ---------- | -----------: |
-| Train      | 31,282 × 115 |
-| Validation |  3,910 × 115 |
-| Test       |  3,911 × 115 |
+100 + 4 + 2 + 9 = 115 features
 
 ---
 
-## Day 5 — FeatureUnion & Baseline Models ✅
+## Day 5 — Feature Union & Baseline Models
 
-Combined representation:
+Combined:
 
-* **5,000 TF-IDF features**
-* **115 auxiliary features**
-* **5,115 total features**
+5,000 TF-IDF + 115 auxiliary = 5,115 features
 
-A Scikit-learn `FeatureUnion` pipeline was created.
+Baseline models:
 
-### Logistic Regression
-
-5-fold stratified cross-validation:
-
-| Metric    |      Score |
-| --------- | ---------: |
-| Accuracy  |     99.34% |
-| Precision |     99.35% |
-| Recall    |     99.43% |
-| **F1**    | **99.39%** |
-| ROC-AUC   |     99.94% |
-
-### Naive Bayes
-
-5-fold stratified cross-validation:
-
-| Metric    |      Score |
-| --------- | ---------: |
-| Accuracy  |     95.33% |
-| Precision |     95.28% |
-| Recall    |     96.15% |
-| **F1**    | **95.71%** |
-| ROC-AUC   |     99.02% |
-
-### Best Baseline
-
-🏆 **Logistic Regression — F1: 99.39%**
+| Model | CV F1 |
+|---|---:|
+| Logistic Regression | 99.39% |
+| Naive Bayes | 95.71% |
 
 ---
 
-## Day 6 — Advanced Models & Hyperparameter Tuning ✅
+## Day 6 — Advanced Models & Hyperparameter Tuning
 
-Advanced models were evaluated using stratified cross-validation.
+Models evaluated:
 
-### Model Comparison
+- Logistic Regression
+- Naive Bayes
+- Linear SVM
+- Random Forest
+- Gradient Boosting
+- XGBoost
 
-| Model               |   Accuracy |  Precision |     Recall |     **F1** |     ROC-AUC |
-| ------------------- | ---------: | ---------: | ---------: | ---------: | ----------: |
-| **XGBoost**         | **99.75%** | **99.71%** | **99.83%** | **99.77%** | **99.995%** |
-| Linear SVM          |     99.64% |     99.61% |     99.73% |     99.67% |     99.966% |
-| Gradient Boosting   |     99.58% |     99.43% |     99.81% |     99.62% |     99.972% |
-| Logistic Regression |     99.34% |     99.35% |     99.43% |     99.39% |     99.941% |
-| Random Forest       |     99.08% |     98.82% |     99.49% |     99.15% |     99.962% |
-| Naive Bayes         |     95.33% |     95.28% |     96.15% |     95.71% |     99.024% |
+Best model:
 
-### XGBoost Hyperparameter Tuning
-
-`GridSearchCV` was used to tune the XGBoost model.
+XGBoost
 
 Best parameters:
 
-```text
-learning_rate = 0.1
-max_depth = 3
-n_estimators = 120
-```
+- n_estimators = 120
+- max_depth = 3
+- learning_rate = 0.1
 
-Best tuned CV F1:
+Cross-validation:
 
-**99.77%**
-
-The tuned model was saved as a reusable artifact.
+- F1: 99.77%
+- ROC-AUC: 99.995%
 
 ---
 
-## Day 7 — Final Model Evaluation ✅
+## Day 7 — Final Model Evaluation
 
-The tuned XGBoost model was evaluated separately on validation and held-out test data.
+Final XGBoost on held-out test set:
 
-### Validation Performance
+| Metric | Score |
+|---|---:|
+| Accuracy | 99.7187% |
+| Precision | 99.5769% |
+| Recall | 99.9057% |
+| F1 | 99.7410% |
+| ROC-AUC | 99.9780% |
 
-| Metric    |      Score |
-| --------- | ---------: |
-| Accuracy  | **99.67%** |
-| Precision | **99.48%** |
-| Recall    | **99.91%** |
-| **F1**    | **99.69%** |
-| ROC-AUC   | **99.98%** |
+Required project target:
 
-### Held-Out Test Performance
-
-| Metric    |      Score |
-| --------- | ---------: |
-| Accuracy  | **99.72%** |
-| Precision | **99.58%** |
-| Recall    | **99.91%** |
-| **F1**    | **99.74%** |
-| ROC-AUC   | **99.98%** |
-
-### Test Classification Report
-
-| Class | Precision | Recall |     F1 |
-| ----- | --------: | -----: | -----: |
-| Fake  |    99.89% | 99.50% | 99.69% |
-| Real  |    99.58% | 99.91% | 99.74% |
-
-Test set:
-
-* Fake: **1,791**
-* Real: **2,120**
-* Total: **3,911**
-
-### Confusion Matrix
-
-```text
-                 Predicted
-              Fake     Real
-Actual Fake    1782       9
-Actual Real       2    2118
-```
-
-### Final Model
-
-🏆 **XGBoost**
-
-Held-out test F1:
-
-**99.74%**
-
-Held-out test ROC-AUC:
-
-**99.98%**
-
-### Target
-
-Required F1:
-
-**> 0.88**
+F1 > 0.88
 
 Achieved:
 
-**0.9974**
-
-✅ **Target achieved**
+F1 = 0.997410
 
 ---
 
-## Day 8 — SHAP Explainability ✅
+## Day 8 — SHAP Explainability
 
-Day 8 focused on understanding the decisions made by the final XGBoost model.
+Implemented:
 
-### SHAP Setup
+- SHAP TreeExplainer
+- Global feature importance
+- SHAP bar plot
+- SHAP beeswarm plot
+- Individual force plots
 
-* XGBoost `TreeExplainer`
-* Exact **615-feature** model space recreated
-* 500 held-out test samples used for SHAP analysis
-* Random seed: **42**
+Final feature space:
 
-### SHAP Feature Space
+615 features
 
-```text
-500 selected TF-IDF features
-+
-115 auxiliary NLP features
-=
-615 total features
-```
+- 500 selected TF-IDF features
+- 115 auxiliary features
 
-### Top SHAP Features
+Important features included:
 
-| Rank | Feature              | Mean Absolute SHAP |
-| ---: | -------------------- | -----------------: |
-|    1 | `read more`          |           1.689772 |
-|    2 | `reuters`            |           1.528391 |
-|    3 | `washington reuters` |           1.046988 |
-|    4 | `featured image`     |           1.027853 |
-|    5 | `century wire`       |           0.977140 |
-|    6 | `getty`              |           0.536068 |
-|    7 | `said`               |           0.518828 |
-|    8 | `via`                |           0.418443 |
-|    9 | `nov`                |           0.405618 |
-|   10 | `W2V_044`            |           0.356393 |
+- read more
+- reuters
+- featured image
+- century wire
+- washington reuters
+- getty
+- said
 
-The SHAP analysis provides global feature importance as well as individual prediction explanations.
-
-### Individual Explanation Example
-
-Three held-out test samples were analyzed.
-
-One example was intentionally captured as a misclassified case:
-
-```text
-Actual: Real
-Predicted: Fake
-Real Probability: 0.257711
-Credibility Score: 25.77 / 100
-```
-
-### Day 8 Artifacts
-
-```text
-results/day_08/
-├── shap_feature_importance.csv
-├── shap_summary_bar.png
-├── shap_summary_beeswarm.png
-├── shap_force_plot_1.html
-├── shap_force_plot_2.html
-├── shap_force_plot_3.html
-├── shap_individual_explanations.csv
-└── day_08_shap_summary.json
-```
+SHAP analysis also revealed strong source/template-related signals in the dataset.
 
 ---
 
-# 📈 Overall Model Performance
+## Day 9 — Flask API & Gradio UI
 
-Best cross-validation F1 scores:
+Implemented Flask REST API:
 
-| Model               |      CV F1 |
-| ------------------- | ---------: |
-| Naive Bayes         |     95.71% |
-| Random Forest       |     99.15% |
-| Logistic Regression |     99.39% |
-| Gradient Boosting   |     99.62% |
-| Linear SVM          |     99.67% |
-| **XGBoost**         | **99.77%** |
+POST /predict
 
-### Current Best Model
+The API provides:
 
-**XGBoost**
+- Prediction
+- Fake probability
+- Real probability
+- Credibility score
+- SHAP-based explanation
 
-* Best CV F1: **99.77%**
-* Held-out Test F1: **99.74%**
-* Held-out Test ROC-AUC: **99.98%**
-* Required F1 target: **> 88%**
-* Target: ✅ **Achieved**
+Input validation:
+
+- Invalid JSON → HTTP 400
+- Missing text → HTTP 400
+- Valid request → HTTP 200
+
+### Gradio
+
+Interactive article-classification interface created with:
+
+- Article text input
+- Fake/Real prediction
+- Probability information
+- Credibility score
+- Explainability output
 
 ---
 
-# 📁 Repository Structure
+# External Validation — WELFake
 
-```text
+The final model was additionally evaluated on a balanced sample of 2,000 WELFake articles.
+
+Results:
+
+| Metric | WELFake |
+|---|---:|
+| Accuracy | 79.15% |
+| Precision | 98.34% |
+| Recall | 59.30% |
+| F1 | 73.99% |
+| ROC-AUC | 92.83% |
+
+Internal test F1:
+
+99.74%
+
+External WELFake F1:
+
+73.99%
+
+This demonstrates significant domain shift.
+
+Therefore, NewsGuard should not be presented as a universal fake-news detector. It should be used as an experimental credibility-support system and not as the sole source for factual verification.
+
+---
+
+# Day 10 — Finalization
+
+Completed:
+
+### Model Card
+
+Documents:
+
+- Training data
+- Intended use
+- Performance
+- Limitations
+- Explainability
+- External validation
+- Responsible use
+- Reproducibility
+
+### MLflow
+
+Experiment:
+
+NewsGuard_Final_Model
+
+Final XGBoost run tracked with:
+
+- Model parameters
+- Feature configuration
+- Internal test metrics
+- Cross-validation metrics
+- WELFake validation metrics
+- SHAP artifacts
+- Model Card
+
+### Automated Testing
+
+PyTest result:
+
+12 passed
+
+All project integrity and performance checks passed.
+
+---
+
+# Final Architecture
+
+Article
+↓
+Text Preprocessing
+↓
+TF-IDF + Word2Vec + Readability + Sentiment + Linguistic Features
+↓
+Feature Selection
+↓
+615 Final Features
+↓
+XGBoost
+↓
+Fake / Real Prediction
+↓
+Probability
+↓
+Credibility Score (0–100)
+↓
+SHAP Explanation
+↓
+Flask API / Gradio UI
+
+---
+
+# Repository Structure
+
 NewsGuard_Fake_News_Detection/
-│
-├── .gitignore
-├── LICENSE
-├── README.md
-├── requirements.txt
-│
+
 ├── notebooks/
 │   ├── NewsGuard_Day_01_Dataset_Setup_EDA.ipynb
 │   ├── NewsGuard_Day_02_Text_Preprocessing.ipynb
@@ -472,95 +381,110 @@ NewsGuard_Fake_News_Detection/
 │   ├── NewsGuard_Day_05_Feature_Union_Baseline_Models.ipynb
 │   ├── NewsGuard_Day_06_Advanced_Models_and_Hyperparameter_Tuning.ipynb
 │   ├── NewsGuard_Day_07_Final_Model_Evaluation.ipynb
-│   └── NewsGuard_Day_08_SHAP_Explainability.ipynb
+│   ├── NewsGuard_Day_08_SHAP_Explainability.ipynb
+│   ├── NewsGuard_Day_09_Flask_API_Gradio_UI.ipynb
+│   └── NewsGuard_Day_10_Finalization.ipynb
 │
-└── results/
-    ├── day_05/
-    ├── day_06/
-    ├── day_07/
-    └── day_08/
-```
-
-Raw datasets and large generated feature files are intentionally excluded from GitHub.
-
----
-
-# 🔁 Reproducibility
-
-The project follows these principles:
-
-* Fixed random seeds where applicable
-* Stratified train/validation/test splitting
-* Train-only TF-IDF vocabulary fitting
-* Train-only Word2Vec training
-* Saved feature artifacts
-* Artifact reload verification
-* Dataset integrity checks
-* Stratified cross-validation
-* Hyperparameter tuning with GridSearchCV
-* Held-out validation and test evaluation
-* Separate final evaluation on unseen data
-* SHAP explainability using the saved best model
-* Reproducible result artifacts
-
-> **Development note:** Some Day 5–Day 6 experiments use precomputed or reduced feature representations for model comparison. These are documented as development-stage experiments. Final validation/test performance was measured separately on held-out data.
+├── results/
+│   ├── day_05/
+│   ├── day_06/
+│   ├── day_07/
+│   ├── day_08/
+│   ├── day_09/
+│   └── day_10/
+│
+├── tests/
+│   └── test_newsguard.py
+│
+├── requirements.txt
+├── LICENSE
+└── README.md
 
 ---
 
-# 🚀 Upcoming Work
+# Final Performance
 
-## Day 9 — Deployment & User Interface
+### Internal Test Set
 
-Planned:
+F1 = 99.74%
 
-* Flask REST API
-* `/predict` endpoint
-* Real/Fake prediction
-* Credibility score
-* SHAP-based explanation
-* Gradio interface
+### External WELFake
 
-## Day 10 — ML Finalization
+F1 = 73.99%
 
-Planned:
+### Automated Tests
 
-* MLflow experiment tracking
-* PyTest test suite
-* Model card
-* Final documentation
-* Screenshots
-* Reproducibility verification
-* Project cleanup
+12/12 passed
+
+### Model
+
+XGBoost
+
+### Final Feature Space
+
+615 features
 
 ---
 
-# 👨‍💻 Author
+# Limitations
 
-**Sagar Sharma**
+The model shows very high performance on the original dataset but lower performance on WELFake.
 
-B.Tech CSE — Artificial Intelligence & Machine Learning
+Potential reasons include:
+
+- Dataset/domain shift
+- Source-specific language
+- Publication/template patterns
+- Dataset construction differences
+- Distribution differences between datasets
+
+Therefore, the system should be treated as a decision-support and educational NLP system, not an authoritative fact-checking system.
+
+---
+
+# Future Deployment
+
+Final deployment plan:
+
+- Permanent Hugging Face Space
+- Public Gradio interface
+- Flask API deployment
+- Visual credibility gauge
+- SHAP feature explanations
+- MLflow experiment tracking
+- Final project documentation
+
+---
+
+# Project Status
+
+Core ML/NLP pipeline: COMPLETE
+
+Model evaluation: COMPLETE
+
+SHAP explainability: COMPLETE
+
+External validation: COMPLETE
+
+Flask API: COMPLETE
+
+Gradio UI: COMPLETE
+
+Model Card: COMPLETE
+
+MLflow tracking: COMPLETE
+
+Automated tests: COMPLETE
+
+Final deployment & presentation: IN PROGRESS
+
+---
+
+## Author
+
+Sagar Sharma
+
+B.Tech CSE (AI & ML)
 
 Panipat Institute of Engineering and Technology (PIET)
-
----
-
-# 📌 Current Project Status
-
-### Completed
-
-**Day 1 → Dataset Setup & EDA** ✅
-**Day 2 → Text Preprocessing** ✅
-**Day 3 → TF-IDF Feature Engineering** ✅
-**Day 4 → Auxiliary NLP Features** ✅
-**Day 5 → FeatureUnion & Baseline Models** ✅
-**Day 6 → Advanced Models & Hyperparameter Tuning** ✅
-**Day 7 → Final Model Evaluation** ✅
-**Day 8 → SHAP Explainability** ✅
-
-### Current Best Result
-
-**XGBoost — 99.74% Held-Out Test F1**
-
-🎯 **F1 Target > 0.88: ACHIEVED**
-
-🚧 **Next: Day 9 — Deployment & User Interface**
+'''
