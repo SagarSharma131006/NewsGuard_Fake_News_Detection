@@ -1,4 +1,3 @@
-'''
 # NewsGuard — Fake News Detection & Credibility Scoring System
 
 ## Project Overview
@@ -487,4 +486,3 @@ Sagar Sharma
 B.Tech CSE (AI & ML)
 
 Panipat Institute of Engineering and Technology (PIET)
-'''
