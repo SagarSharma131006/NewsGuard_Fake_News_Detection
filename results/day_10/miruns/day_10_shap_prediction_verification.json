@@ -1,0 +1,50 @@
+{
+  "status": "COMPLETE",
+  "prediction": "Fake",
+  "fake_probability": 0.9810202121734619,
+  "real_probability": 0.018979812040925026,
+  "credibility_score": 1.8979812040925026,
+  "feature_count": 615,
+  "top_shap_features": [
+    {
+      "feature": "read more",
+      "shap_value": -1.492093801498413
+    },
+    {
+      "feature": "reuters",
+      "shap_value": 1.446986198425293
+    },
+    {
+      "feature": "featured image",
+      "shap_value": -0.9930128455162048
+    },
+    {
+      "feature": "century wire",
+      "shap_value": -0.9682952165603638
+    },
+    {
+      "feature": "washington reuters",
+      "shap_value": 0.967014491558075
+    },
+    {
+      "feature": "said",
+      "shap_value": 0.5567291378974915
+    },
+    {
+      "feature": "nov",
+      "shap_value": 0.5506303310394287
+    },
+    {
+      "feature": "getty",
+      "shap_value": -0.4743497669696808
+    },
+    {
+      "feature": "W2V_064",
+      "shap_value": 0.32669922709465027
+    },
+    {
+      "feature": "W2V_099",
+      "shap_value": 0.28088706731796265
+    }
+  ]
+}
