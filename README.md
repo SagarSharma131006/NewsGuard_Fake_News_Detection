@@ -1,10 +1,10 @@
 # NewsGuard — Fake News Detection & Credibility Scoring System
 
-NewsGuard is an NLP-based fake news detection system designed to classify news articles as **Real** or **Fake** and eventually provide a **credibility score** along with explainable predictions.
+NewsGuard is an NLP-based fake news detection system designed to classify news articles as **Real** or **Fake**, with future support for credibility scoring and explainable predictions.
 
-The project combines multiple NLP feature-engineering techniques including **TF-IDF, Word2Vec, readability, sentiment, and linguistic features**, followed by comparison and tuning of multiple machine learning models.
+The project combines multiple NLP feature-engineering techniques including **TF-IDF, Word2Vec, readability, sentiment, and linguistic features**, followed by comparison and hyperparameter tuning of multiple machine learning models.
 
-> **Project Status:** Day 1–Day 6 completed. Final evaluation, SHAP explainability, API, UI, MLflow tracking, testing, and final documentation are in progress.
+> **Project Status:** Day 1–Day 7 completed. SHAP explainability, credibility scoring, Flask API, Gradio UI, MLflow tracking, automated testing, model card, and final documentation are in progress.
 
 ---
 
@@ -15,7 +15,8 @@ The goal of NewsGuard is to build an end-to-end machine learning pipeline that c
 * Detect whether a news article is Real or Fake
 * Combine multiple NLP feature types
 * Compare multiple machine learning models
-* Tune the best-performing models
+* Tune the best-performing model
+* Evaluate the final model on unseen data
 * Provide model explainability using SHAP
 * Generate a credibility score
 * Provide predictions through a Flask REST API
@@ -29,7 +30,9 @@ The goal of NewsGuard is to build an end-to-end machine learning pipeline that c
 The project uses the **Fake and Real News Dataset** from Kaggle.
 
 **Dataset:** Fake and Real News Dataset
-**Source:** https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
+
+**Source:**
+https://www.kaggle.com/datasets/clmentbisaillon/fake-and-real-news-dataset
 
 The original dataset contains:
 
@@ -148,11 +151,11 @@ Implemented TF-IDF using:
 
 ### TF-IDF Matrix
 
-| Split      | Shape          |
-| ---------- | -------------- |
+| Split      |          Shape |
+| ---------- | -------------: |
 | Train      | 31,282 × 5,000 |
-| Validation | 3,910 × 5,000  |
-| Test       | 3,911 × 5,000  |
+| Validation |  3,910 × 5,000 |
+| Test       |  3,911 × 5,000 |
 
 The vocabulary was learned only from the training data and reused for validation and test sets.
 
@@ -173,7 +176,7 @@ Configuration:
 * Epochs: **2**
 * Seed: **42**
 
-Document-level Word2Vec representation:
+Document-level representation:
 
 **100 features**
 
@@ -213,11 +216,11 @@ Using TextBlob:
 
 **100 + 4 + 2 + 9 = 115 features**
 
-| Split      | Shape        |
-| ---------- | ------------ |
+| Split      |        Shape |
+| ---------- | -----------: |
 | Train      | 31,282 × 115 |
-| Validation | 3,910 × 115  |
-| Test       | 3,911 × 115  |
+| Validation |  3,910 × 115 |
+| Test       |  3,911 × 115 |
 
 All generated feature artifacts were saved and successfully reloaded for integrity verification.
 
@@ -236,31 +239,33 @@ Final combined representation:
 
 A Scikit-Learn `FeatureUnion` was created to represent the combined feature pipeline.
 
-### Baseline Models
-
-#### Logistic Regression
+### Logistic Regression
 
 5-fold stratified cross-validation:
 
-* Accuracy: **99.34%**
-* Precision: **99.35%**
-* Recall: **99.43%**
-* **F1: 99.39%**
-* ROC-AUC: **99.94%**
+| Metric    |      Score |
+| --------- | ---------: |
+| Accuracy  |     99.34% |
+| Precision |     99.35% |
+| Recall    |     99.43% |
+| **F1**    | **99.39%** |
+| ROC-AUC   |     99.94% |
 
-#### Naive Bayes
+### Naive Bayes
 
 5-fold stratified cross-validation:
 
-* Accuracy: **95.33%**
-* Precision: **95.28%**
-* Recall: **96.15%**
-* **F1: 95.71%**
-* ROC-AUC: **99.02%**
+| Metric    |      Score |
+| --------- | ---------: |
+| Accuracy  |     95.33% |
+| Precision |     95.28% |
+| Recall    |     96.15% |
+| **F1**    | **95.71%** |
+| ROC-AUC   |     99.02% |
 
 ### Best Baseline
 
-**Logistic Regression — F1: 99.39%**
+🏆 **Logistic Regression — F1: 99.39%**
 
 ---
 
@@ -295,34 +300,116 @@ Best tuned cross-validation F1:
 
 **99.77%**
 
-The tuned XGBoost model was saved as a reusable artifact for subsequent evaluation.
+The tuned XGBoost model was saved as an artifact for subsequent evaluation.
 
-### Current Best Model
+---
+
+## Day 7 — Final Model Evaluation ✅
+
+The tuned XGBoost model was evaluated on the validation set and the held-out test set.
+
+### Validation Performance
+
+| Metric    |      Score |
+| --------- | ---------: |
+| Accuracy  | **99.67%** |
+| Precision | **99.48%** |
+| Recall    | **99.91%** |
+| **F1**    | **99.69%** |
+| ROC-AUC   | **99.98%** |
+
+### Held-Out Test Performance
+
+| Metric    |      Score |
+| --------- | ---------: |
+| Accuracy  | **99.72%** |
+| Precision | **99.58%** |
+| Recall    | **99.91%** |
+| **F1**    | **99.74%** |
+| ROC-AUC   | **99.98%** |
+
+### Classification Report
+
+| Class | Precision | Recall |     F1 |
+| ----- | --------: | -----: | -----: |
+| Fake  |    99.89% | 99.50% | 99.69% |
+| Real  |    99.58% | 99.91% | 99.74% |
+
+Test set:
+
+* Fake samples: **1,791**
+* Real samples: **2,120**
+* Total: **3,911**
+
+### Confusion Matrix
+
+```text
+                 Predicted
+              Fake     Real
+Actual Fake    1782       9
+Actual Real       2    2118
+```
+
+### Final Model
 
 🏆 **XGBoost**
 
-Cross-validation F1:
+Held-out test F1:
 
-**0.9977**
+**99.74%**
+
+Held-out test ROC-AUC:
+
+**99.98%**
+
+### Assignment Target
+
+Required F1:
+
+**> 0.88**
+
+Achieved test F1:
+
+**0.9974**
+
+✅ **Target achieved**
+
+### Day 7 Artifacts
+
+```text
+results/day_07/
+├── confusion_matrix_xgboost_test.png
+├── roc_curve_xgboost_test.png
+├── model_comparison_f1.png
+├── day_07_final_results.csv
+├── day_07_final_results.joblib
+└── day_07_confusion_matrix.csv
+```
+
+---
+
+# 📈 Model Performance Overview
+
+The best cross-validation F1 scores obtained so far are:
+
+| Model               |         F1 |
+| ------------------- | ---------: |
+| Naive Bayes         |     95.71% |
+| Random Forest       |     99.15% |
+| Logistic Regression |     99.39% |
+| Gradient Boosting   |     99.62% |
+| Linear SVM          |     99.67% |
+| **XGBoost**         | **99.77%** |
+
+XGBoost is currently the best-performing model based on cross-validation F1.
 
 ---
 
 # 🔬 Upcoming Work
 
-## Day 7 — Final Model Evaluation
-
-* Evaluate candidate models on validation set
-* Evaluate final selected model on held-out test set
-* Accuracy
-* Precision
-* Recall
-* F1-score
-* ROC-AUC
-* Confusion matrix
-* Classification report
-* Final model selection
-
 ## Day 8 — SHAP Explainability
+
+Planned:
 
 * SHAP TreeExplainer
 * Global feature importance
@@ -333,6 +420,8 @@ Cross-validation F1:
 
 ## Day 9 — Flask API & User Interface
 
+Planned:
+
 * Flask REST API
 * `/predict` endpoint
 * Real/Fake prediction
@@ -342,11 +431,12 @@ Cross-validation F1:
 
 ## Day 10 — Finalization
 
+Planned:
+
 * MLflow experiment tracking
 * PyTest test suite
 * Model card
-* Final README
-* Documentation
+* Final documentation
 * Screenshots
 * Reproducibility verification
 * Project cleanup
@@ -360,29 +450,37 @@ NewsGuard_Fake_News_Detection/
 │
 ├── .gitignore
 ├── LICENSE
+├── README.md
 ├── requirements.txt
 │
-└── notebooks/
-    ├── NewsGuard_Day_01_Dataset_Setup_EDA.ipynb
-    ├── NewsGuard_Day_02_Text_Preprocessing.ipynb
-    ├── NewsGuard_Day_03_TFIDF_Feature_Engineering.ipynb
-    ├── NewsGuard_Day_04_Auxiliary_NLP_Features.ipynb
-    ├── NewsGuard_Day_05_Feature_Union_Baseline_Models.ipynb
-    └── NewsGuard_Day_06_Advanced_Models_and_Hyperparameter_Tuning.ipynb
+├── notebooks/
+│   ├── NewsGuard_Day_01_Dataset_Setup_EDA.ipynb
+│   ├── NewsGuard_Day_02_Text_Preprocessing.ipynb
+│   ├── NewsGuard_Day_03_TFIDF_Feature_Engineering.ipynb
+│   ├── NewsGuard_Day_04_Auxiliary_NLP_Features.ipynb
+│   ├── NewsGuard_Day_05_Feature_Union_Baseline_Models.ipynb
+│   ├── NewsGuard_Day_06_Advanced_Models_and_Hyperparameter_Tuning.ipynb
+│   └── NewsGuard_Day_07_Final_Model_Evaluation.ipynb
+│
+└── results/
+    ├── day_05/
+    │   ├── day_05_baseline_results.csv
+    │   └── day_05_baseline_results.joblib
+    │
+    ├── day_06/
+    │   ├── day_06_model_comparison.csv
+    │   ├── day_06_model_comparison.joblib
+    │   ├── day_06_xgboost_gridsearch.csv
+    │   └── day_06_xgboost_best_tuned.joblib
+    │
+    └── day_07/
+        ├── confusion_matrix_xgboost_test.png
+        ├── roc_curve_xgboost_test.png
+        ├── model_comparison_f1.png
+        ├── day_07_final_results.csv
+        ├── day_07_final_results.joblib
+        └── day_07_confusion_matrix.csv
 ```
-
-Additional folders such as:
-
-```text
-src/
-app/
-tests/
-models/
-results/
-reports/
-```
-
-will be added progressively as the project reaches the corresponding milestones.
 
 ---
 
@@ -399,23 +497,38 @@ The project follows these principles:
 * Dataset integrity checks
 * Stratified cross-validation
 * Hyperparameter tuning using GridSearchCV
-* Held-out validation and test sets reserved for final evaluation
+* Held-out validation and test evaluation
+* Separate final evaluation on unseen data
 
-> **Note:** Some Day 5–Day 6 cross-validation experiments use precomputed training features and reduced feature representations. These experiments are documented as development-stage model comparisons; final held-out evaluation will be performed separately on the untouched validation/test sets.
+> **Development note:** Some Day 5–Day 6 cross-validation experiments use precomputed training features and reduced feature representations. These experiments are documented as development-stage model comparisons. The final validation/test evaluation was performed separately using the held-out splits.
 
 ---
 
-# 📌 Current Best Result
+# 📌 Current Project Result
 
-After Day 6:
+### Best Model
 
-**Best Model:** XGBoost
+**XGBoost**
 
-**Cross-Validation F1:** **99.77%**
+### Best Cross-Validation F1
 
-**Cross-Validation ROC-AUC:** **99.995%**
+**99.77%**
 
-The final held-out test performance will be reported after Day 7 evaluation.
+### Held-Out Test F1
+
+**99.74%**
+
+### Held-Out Test ROC-AUC
+
+**99.98%**
+
+### Required Target
+
+**F1 > 0.88**
+
+### Target Status
+
+✅ **Achieved**
 
 ---
 
@@ -431,6 +544,14 @@ Panipat Institute of Engineering and Technology (PIET)
 
 ## ⚠️ Project Status
 
-NewsGuard is currently in the **model evaluation and explainability phase**.
+NewsGuard has successfully completed:
 
-Final held-out test results, SHAP explanations, credibility scoring, Flask API, Gradio UI, MLflow tracking, automated tests, and final documentation will be added as the remaining milestones are completed.
+**Day 1 → Dataset & EDA**
+**Day 2 → Text Preprocessing**
+**Day 3 → TF-IDF Feature Engineering**
+**Day 4 → Auxiliary NLP Features**
+**Day 5 → FeatureUnion & Baseline Models**
+**Day 6 → Advanced Models & Hyperparameter Tuning**
+**Day 7 → Final Model Evaluation**
+
+🚧 **Next:** SHAP Explainability
