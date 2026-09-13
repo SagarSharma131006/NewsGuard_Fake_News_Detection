@@ -1,44 +1,63 @@
 # Python
 __pycache__/
 *.py[cod]
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+.venv/
+venv/
+env/
 
 # Jupyter
 .ipynb_checkpoints/
 
-# Virtual environments
-venv/
-.venv/
-env/
+# Google Colab
+.drive/
+content/
 
-# Dataset
+# Datasets
 data/raw/
-*.tsv
 *.zip
+*.csv
 
-# Processed datasets
-data/processed/*.csv
+# Generated processed data
+data/processed/
+data/splits/
+
+# Generated ML features
+features/
 
 # Trained models
-models/*.pkl
-models/*.joblib
-models/*.pt
-models/*.pth
-models/*.h5
+models/
+*.pkl
+*.joblib
+*.h5
+*.pt
+*.pth
+*.onnx
 
-# Predictions
-results/predictions/
+# Results
+results/
+reports/figures/
 
 # MLflow
-mlruns/*
-!mlruns/.gitkeep
-
-# Environment / secrets
-.env
-*.env
+mlruns/
+mlartifacts/
 
 # Logs
 *.log
 
+# Environment / secrets
+.env
+.env.*
+*.key
+*.pem
+
 # OS
 .DS_Store
 Thumbs.db
+
+# Temporary files
+*.tmp
+*.temp
