@@ -1,0 +1,616 @@
+Feature,Mean_Absolute_SHAP
+read more,1.6897715
+reuters,1.5283914
+washington reuters,1.0469877
+featured image,1.0278528
+century wire,0.9771399
+getty,0.5360685
+said,0.51882774
+via,0.41844317
+nov,0.4056182
+W2V_044,0.35639304
+getty images,0.3214265
+Character Count,0.263019
+W2V_099,0.25033855
+the nov,0.23293796
+monday,0.2116795
+ARI,0.21063055
+W2V_100,0.17849466
+it said,0.16483362
+W2V_062,0.16071446
+twitter com,0.15237717
+W2V_058,0.14833304
+W2V_056,0.14796102
+this,0.13722713
+W2V_068,0.13605128
+Sentiment Subjectivity,0.12606369
+W2V_022,0.12164272
+W2V_029,0.117861666
+just,0.11677484
+video,0.11579573
+W2V_021,0.11009784
+W2V_064,0.107039735
+W2V_070,0.10507216
+W2V_082,0.101485826
+obama,0.09739549
+W2V_025,0.095819294
+W2V_066,0.09475641
+W2V_035,0.09427862
+W2V_042,0.09124401
+Sentence Count,0.091153584
+W2V_034,0.085028194
+W2V_027,0.08077022
+W2V_078,0.08047853
+president barack,0.07974595
+W2V_053,0.076369084
+Average Word Length,0.07397697
+W2V_045,0.072454676
+Digit Count,0.07088855
+Sentiment Polarity,0.06287284
+Punctuation Count,0.05735976
+watch,0.056714304
+W2V_041,0.05566015
+tuesday,0.052030772
+companies,0.044466753
+breaking,0.044449013
+image,0.043932036
+W2V_012,0.043337084
+W2V_050,0.04279877
+W2V_017,0.041263722
+know,0.041145593
+foreign,0.03764991
+W2V_043,0.033382148
+W2V_038,0.033346023
+Flesch Reading Ease,0.032192282
+W2V_090,0.031953942
+W2V_093,0.030105485
+W2V_008,0.030047769
+W2V_055,0.027197814
+W2V_010,0.01946768
+W2V_054,0.018499961
+W2V_002,0.01783354
+W2V_076,0.017127028
+W2V_080,0.016230626
+W2V_067,0.015895104
+W2V_046,0.015367923
+our,0.014605566
+W2V_049,0.014224862
+read,0.014199003
+W2V_095,0.01384024
+Word Count,0.012717832
+how,0.012384519
+about,0.012250407
+now,0.01195018
+the us,0.0117313955
+W2V_006,0.011576484
+W2V_014,0.0114234695
+us,0.0113651175
+Average Sentence Length,0.011114217
+do,0.010881843
+washington,0.009970056
+W2V_048,0.009950449
+president trump,0.00994865
+said on,0.009368015
+W2V_028,0.008233844
+W2V_072,0.008212032
+W2V_074,0.007667553
+W2V_030,0.0071099484
+W2V_085,0.0066686696
+bad,0.00615842
+W2V_063,0.0058277906
+officials,0.0055840774
+W2V_019,0.0055517075
+W2V_069,0.005475581
+W2V_003,0.005459744
+W2V_020,0.004715245
+Unique Word Ratio,0.00449544
+region,0.003879262
+out,0.0035483781
+said the,0.0033996017
+W2V_065,0.0033323634
+W2V_060,0.0031737029
+parliament,0.0030070827
+percent,0.0025585105
+words,0.0024058262
+gop,0.0021056344
+W2V_071,0.0019804526
+W2V_083,0.0018874549
+trade,0.0017919102
+opposition,0.00063626585
+urged,0.00051446806
+leaders,0.00023477849
+W2V_018,0.000100845915
+told,0.0
+told reporters,0.0
+things,0.0
+today,0.0
+they re,0.0
+to know,0.0
+to say,0.0
+told reuters,0.0
+tonight,0.0
+the left,0.0
+the media,0.0
+the region,0.0
+they,0.0
+these,0.0
+theresa may,0.0
+theresa,0.0
+the ruling,0.0
+then,0.0
+the senate,0.0
+the truth,0.0
+the united,0.0
+the video,0.0
+true,0.0
+video via,0.0
+watch the,0.0
+way,0.0
+wednesday,0.0
+went,0.0
+went on,0.0
+what,0.0
+when,0.0
+when you,0.0
+trump,0.0
+trump is,0.0
+trump realdonaldtrump,0.0
+trump supporters,0.0
+truth,0.0
+turkey,0.0
+thing,0.0
+tweet,0.0
+tweets,0.0
+twitter,0.0
+ukraine,0.0
+union,0.0
+united,0.0
+united nations,0.0
+united states,0.0
+think,0.0
+thinks,0.0
+this country,0.0
+this is,0.0
+this month,0.0
+thursday,0.0
+tillerson,0.0
+turkish,0.0
+declined to,0.0
+show,0.0
+shows,0.0
+so,0.0
+so much,0.0
+somehow,0.0
+someone,0.0
+something,0.0
+south,0.0
+south korea,0.0
+spain,0.0
+spokesman,0.0
+spokesman said,0.0
+spokeswoman,0.0
+wasn,0.0
+statement,0.0
+story,0.0
+sanctions,0.0
+sanctions on,0.0
+saudi,0.0
+screen,0.0
+screen capture,0.0
+screenshot,0.0
+security,0.0
+security forces,0.0
+seem,0.0
+seems,0.0
+seems to,0.0
+senior,0.0
+state,0.0
+did not,0.0
+didn,0.0
+disgusting,0.0
+do you,0.0
+doesn,0.0
+doing,0.0
+don,0.0
+economic,0.0
+else,0.0
+entire,0.0
+erdogan,0.0
+eu,0.0
+european,0.0
+the fact,0.0
+declined,0.0
+the government,0.0
+stupid,0.0
+sure,0.0
+syria,0.0
+talking,0.0
+talks,0.0
+talks with,0.0
+tax,0.0
+tell,0.0
+that donald,0.0
+that trump,0.0
+the capital,0.0
+the donald,0.0
+the eu,0.0
+the european,0.0
+the gop,0.0
+billion,0.0
+black,0.0
+black lives,0.0
+bloc,0.0
+breitbart,0.0
+brexit,0.0
+britain,0.0
+british,0.0
+brussels,0.0
+budget,0.0
+W2V_051,0.0
+W2V_052,0.0
+W2V_057,0.0
+W2V_023,0.0
+senate,0.0
+W2V_026,0.0
+W2V_031,0.0
+W2V_032,0.0
+W2V_033,0.0
+W2V_036,0.0
+W2V_037,0.0
+W2V_039,0.0
+W2V_040,0.0
+W2V_047,0.0
+beijing,0.0
+being,0.0
+can,0.0
+can watch,0.0
+capital,0.0
+capture,0.0
+W2V_024,0.0
+W2V_061,0.0
+and it,0.0
+and they,0.0
+and you,0.0
+ankara,0.0
+21st century,0.0
+anything,0.0
+apparently,0.0
+aren,0.0
+army,0.0
+as saying,0.0
+asia,0.0
+authorities,0.0
+agency,0.0
+berlin,0.0
+agreement,0.0
+all,0.0
+all of,0.0
+america,0.0
+americans,0.0
+and he,0.0
+W2V_081,0.0
+21wire,0.0
+W2V_086,0.0
+W2V_087,0.0
+W2V_088,0.0
+W2V_089,0.0
+W2V_091,0.0
+below,0.0
+below featured,0.0
+agreed,0.0
+cop,0.0
+cops,0.0
+couldn,0.0
+countries,0.0
+course,0.0
+crackdown,0.0
+crazy,0.0
+crisis,0.0
+dc,0.0
+why,0.0
+wire,0.0
+woman,0.0
+women,0.0
+wonder,0.0
+catalan,0.0
+wouldn,0.0
+xi,0.0
+yes,0.0
+york reuters,0.0
+you,0.0
+you are,0.0
+you can,0.0
+you have,0.0
+you know,0.0
+url,0.0
+ve,0.0
+via getty,0.0
+via video,0.0
+via youtube,0.0
+video screen,0.0
+worse,0.0
+catalonia,0.0
+central,0.0
+china,0.0
+chinese,0.0
+claimed that,0.0
+clearly,0.0
+clinton,0.0
+cnn,0.0
+coalition,0.0
+com,0.0
+W2V_016,0.0
+deal,0.0
+your,0.0
+youtube,0.0
+Uppercase Count,0.0
+cooperation,0.0
+Gunning Fog,0.0
+W2V_001,0.0
+W2V_004,0.0
+W2V_005,0.0
+W2V_007,0.0
+W2V_009,0.0
+W2V_011,0.0
+W2V_013,0.0
+W2V_015,0.0
+you re,0.0
+you think,0.0
+comment,0.0
+commission,0.0
+committee,0.0
+completely,0.0
+Flesch-Kincaid Grade,0.0
+international,0.0
+iran,0.0
+iraqi,0.0
+is,0.0
+is expected,0.0
+is it,0.0
+is just,0.0
+is that,0.0
+isis,0.0
+islamic,0.0
+european union,0.0
+even,0.0
+hillary,0.0
+hillary clinton,0.0
+representative,0.0
+himself,0.0
+hollywood,0.0
+host,0.0
+house of,0.0
+house said,0.0
+if,0.0
+if you,0.0
+image via,0.0
+images,0.0
+in america,0.0
+in fact,0.0
+in statement,0.0
+in this,0.0
+guy,0.0
+had been,0.0
+him,0.0
+jerusalem,0.0
+joke,0.0
+kids,0.0
+km,0.0
+know that,0.0
+knows,0.0
+korea,0.0
+korean,0.0
+kurdish,0.0
+last month,0.0
+lawmakers,0.0
+leader,0.0
+ever,0.0
+every,0.0
+everyone,0.0
+interesting,0.0
+exactly,0.0
+expected,0.0
+expected to,0.0
+explained,0.0
+fact,0.0
+fact that,0.0
+fake,0.0
+featured,0.0
+finally,0.0
+islamic state,0.0
+isn,0.0
+it not,0.0
+inc,0.0
+including,0.0
+independence,0.0
+everything,0.0
+for comment,0.0
+for hillary,0.0
+forces,0.0
+foreign minister,0.0
+foreign ministry,0.0
+fox,0.0
+fox news,0.0
+france,0.0
+french,0.0
+friday,0.0
+fun,0.0
+funny,0.0
+backed,0.0
+because,0.0
+hannity,0.0
+21st,0.0
+W2V_073,0.0
+W2V_075,0.0
+W2V_077,0.0
+W2V_079,0.0
+W2V_096,0.0
+W2V_097,0.0
+W2V_098,0.0
+absolutely,0.0
+W2V_059,0.0
+again,0.0
+after all,0.0
+about it,0.0
+2018,0.0
+actually,0.0
+because he,0.0
+happened,0.0
+has said,0.0
+hate,0.0
+hateful,0.0
+he doesn,0.0
+he just,0.0
+he said,0.0
+hell,0.0
+her,0.0
+here,0.0
+here is,0.0
+here the,0.0
+hilarious,0.0
+german,0.0
+get,0.0
+finance,0.0
+getting,0.0
+girl,0.0
+go,0.0
+god,0.0
+goes,0.0
+going,0.0
+going to,0.0
+gonna,0.0
+got,0.0
+government,0.0
+great,0.0
+gun,0.0
+W2V_092,0.0
+W2V_094,0.0
+anyone,0.0
+gets,0.0
+remember,0.0
+out that,0.0
+parliamentary,0.0
+parties,0.0
+perfect,0.0
+person,0.0
+photo,0.0
+pic,0.0
+pic twitter,0.0
+please,0.0
+president donald,0.0
+president obama,0.0
+press,0.0
+pretty,0.0
+japan,0.0
+oh,0.0
+oil,0.0
+okay,0.0
+on friday,0.0
+on monday,0.0
+on saturday,0.0
+on sunday,0.0
+on thursday,0.0
+on to,0.0
+on tuesday,0.0
+on wednesday,0.0
+only,0.0
+other words,0.0
+never,0.0
+news agency,0.0
+official said,0.0
+sept,0.0
+she,0.0
+shocking,0.0
+rep,0.0
+reporter,0.0
+reporters,0.0
+W2V_084,0.0
+representatives,0.0
+reuters president,0.0
+reuters republican,0.0
+reuters the,0.0
+ridiculous,0.0
+right,0.0
+rohingya,0.0
+ruling,0.0
+relations,0.0
+said in,0.0
+said it,0.0
+prime,0.0
+prime minister,0.0
+probably,0.0
+province,0.0
+pyongyang,0.0
+racism,0.0
+racist,0.0
+re,0.0
+realdonaldtrump,0.0
+really,0.0
+reason,0.0
+referendum,0.0
+regional,0.0
+said he,0.0
+macron,0.0
+madrid,0.0
+mainstream media,0.0
+makes,0.0
+man,0.0
+man who,0.0
+maybe,0.0
+me,0.0
+measure,0.0
+measures,0.0
+meeting,0.0
+merkel,0.0
+militants,0.0
+lebanon,0.0
+led,0.0
+news conference,0.0
+let,0.0
+liberal,0.0
+lie,0.0
+lies,0.0
+like,0.0
+listen,0.0
+literally,0.0
+live,0.0
+lives,0.0
+lives matter,0.0
+ll,0.0
+london,0.0
+london reuters,0.0
+it seems,0.0
+its,0.0
+legislation,0.0
+night,0.0
+north,0.0
+north korea,0.0
+northern,0.0
+not immediately,0.0
+not only,0.0
+nothing,0.0
+nuclear,0.0
+oct,0.0
+of course,0.0
+of representatives,0.0
+of us,0.0
+official,0.0
+military,0.0
+minister,0.0
+lying,0.0
+ministry,0.0
+ministry said,0.0
+missile,0.0
+month,0.0
+moscow,0.0
+moscow reuters,0.0
+mr,0.0
+much,0.0
+mugabe,0.0
+my,0.0
+myanmar,0.0
+nations,0.0
+negotiations,0.0
+look,0.0
+love,0.0
+ministers,0.0

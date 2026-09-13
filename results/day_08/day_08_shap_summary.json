@@ -1,0 +1,15 @@
+{
+    "day": 8,
+    "task": "SHAP Explainability",
+    "model": "XGBoost",
+    "model_features": 615,
+    "shap_samples": 500,
+    "shap_features": 615,
+    "top_feature": "read more",
+    "top_feature_mean_abs_shap": 1.6897715,
+    "individual_explanations": 3,
+    "summary_bar_plot": true,
+    "summary_beeswarm_plot": true,
+    "force_plots": 3,
+    "status": "COMPLETE"
+}
