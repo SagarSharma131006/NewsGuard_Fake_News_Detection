@@ -472,7 +472,7 @@ NewsGuard_Fake_News_Detection/
 │   ├── NewsGuard_Day_05_Feature_Union_Baseline_Models.ipynb
 │   ├── NewsGuard_Day_06_Advanced_Models_and_Hyperparameter_Tuning.ipynb
 │   ├── NewsGuard_Day_07_Final_Model_Evaluation.ipynb
-│   └── NewsGuard_Day_08_SHAP_Explainability (1).ipynb
+│   └── NewsGuard_Day_08_SHAP_Explainability.ipynb
 │
 └── results/
     ├── day_05/
