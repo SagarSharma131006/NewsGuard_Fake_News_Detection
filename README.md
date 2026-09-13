@@ -1,27 +1,26 @@
 # NewsGuard — Fake News Detection & Credibility Scoring System
 
-NewsGuard is an NLP-based fake news detection system designed to classify news articles as **Real** or **Fake**, with future support for credibility scoring and explainable predictions.
+NewsGuard is an NLP-based fake news detection system designed to classify news articles as **Real** or **Fake** using multiple textual, linguistic, readability, sentiment, and semantic features.
 
-The project combines multiple NLP feature-engineering techniques including **TF-IDF, Word2Vec, readability, sentiment, and linguistic features**, followed by comparison and hyperparameter tuning of multiple machine learning models.
+The project follows an end-to-end machine learning workflow covering dataset preparation, preprocessing, feature engineering, baseline modeling, advanced model comparison, hyperparameter tuning, held-out evaluation, and SHAP-based explainability.
 
-> **Project Status:** Day 1–Day 7 completed. SHAP explainability, credibility scoring, Flask API, Gradio UI, MLflow tracking, automated testing, model card, and final documentation are in progress.
+> **Project Status:** Day 1–Day 8 completed. Flask API, Gradio UI, MLflow tracking, automated testing, model card, and final documentation are planned next.
 
 ---
 
 ## 🎯 Project Objective
 
-The goal of NewsGuard is to build an end-to-end machine learning pipeline that can:
+The goal of NewsGuard is to build a reproducible fake-news detection pipeline that can:
 
 * Detect whether a news article is Real or Fake
 * Combine multiple NLP feature types
-* Compare multiple machine learning models
+* Compare different machine learning models
 * Tune the best-performing model
 * Evaluate the final model on unseen data
-* Provide model explainability using SHAP
-* Generate a credibility score
-* Provide predictions through a Flask REST API
-* Provide an interactive user interface
-* Maintain a reproducible ML workflow
+* Explain predictions using SHAP
+* Generate a credibility-oriented score
+* Provide predictions through an API and interactive UI
+* Maintain reproducible ML artifacts throughout development
 
 ---
 
@@ -39,13 +38,13 @@ The original dataset contains:
 * `Fake.csv`
 * `True.csv`
 
-The dataset files are **not stored in this GitHub repository** because of their size.
+The raw dataset is **not stored in this repository** because of its size.
 
-### Dataset Processing
+### Cleaned Dataset
 
-After duplicate removal and data preparation:
+After duplicate removal and preparation:
 
-* Total cleaned articles: **39,103**
+* Total articles: **39,103**
 * Real articles: **21,196**
 * Fake articles: **17,907**
 
@@ -59,16 +58,11 @@ A stratified 80/10/10 split was created:
 | Validation |   3,910 |
 | Test       |   3,911 |
 
-Final label distribution:
-
-* **Real:** 54.2%
-* **Fake:** 45.8%
-
-No content overlap was found between the train, validation, and test sets.
+The train, validation, and test sets were checked for content overlap.
 
 ---
 
-## 🛠️ Technology Stack
+# 🛠️ Technology Stack
 
 * Python
 * Pandas
@@ -85,7 +79,8 @@ No content overlap was found between the train, validation, and test sets.
 * Gradio
 * MLflow
 * PyTest
-* Jupyter / Google Colab
+* Jupyter
+* Google Colab
 
 ---
 
@@ -134,20 +129,20 @@ Final verification:
 * Null cleaned texts: **0**
 * Remaining raw URLs: **0**
 
-Both original and cleaned text were retained for reproducibility and feature engineering.
+Both original and cleaned text were retained for reproducibility.
 
 ---
 
 ## Day 3 — TF-IDF Feature Engineering ✅
 
-Implemented TF-IDF using:
+TF-IDF configuration:
 
 * Unigrams + bigrams
 * Maximum features: **5,000**
 * `min_df = 2`
 * `max_df = 0.95`
 * Sublinear TF scaling
-* Train-only vocabulary fitting
+* Vocabulary fitted only on training data
 
 ### TF-IDF Matrix
 
@@ -157,17 +152,13 @@ Implemented TF-IDF using:
 | Validation |  3,910 × 5,000 |
 | Test       |  3,911 × 5,000 |
 
-The vocabulary was learned only from the training data and reused for validation and test sets.
-
 ---
 
 ## Day 4 — Auxiliary NLP Features ✅
 
-Additional NLP features were engineered using Word2Vec, readability, sentiment, and linguistic statistics.
+Additional NLP features were engineered using semantic, readability, sentiment, and linguistic information.
 
 ### Word2Vec
-
-Configuration:
 
 * Vector size: **100**
 * Window: **5**
@@ -200,15 +191,15 @@ Using TextBlob:
 
 ### Linguistic Features
 
-1. Word Count
-2. Character Count
-3. Sentence Count
-4. Average Word Length
-5. Average Sentence Length
-6. Unique Word Ratio
-7. Digit Count
-8. Uppercase Count
-9. Punctuation Count
+* Word Count
+* Character Count
+* Sentence Count
+* Average Word Length
+* Average Sentence Length
+* Unique Word Ratio
+* Digit Count
+* Uppercase Count
+* Punctuation Count
 
 **9 features**
 
@@ -222,22 +213,17 @@ Using TextBlob:
 | Validation |  3,910 × 115 |
 | Test       |  3,911 × 115 |
 
-All generated feature artifacts were saved and successfully reloaded for integrity verification.
-
 ---
 
 ## Day 5 — FeatureUnion & Baseline Models ✅
 
-Combined:
+Combined representation:
 
 * **5,000 TF-IDF features**
-* **115 auxiliary NLP features**
+* **115 auxiliary features**
+* **5,115 total features**
 
-Final combined representation:
-
-**5,115 features**
-
-A Scikit-Learn `FeatureUnion` was created to represent the combined feature pipeline.
+A Scikit-learn `FeatureUnion` pipeline was created.
 
 ### Logistic Regression
 
@@ -271,11 +257,11 @@ A Scikit-Learn `FeatureUnion` was created to represent the combined feature pipe
 
 ## Day 6 — Advanced Models & Hyperparameter Tuning ✅
 
-Advanced classification models were evaluated using stratified cross-validation.
+Advanced models were evaluated using stratified cross-validation.
 
 ### Model Comparison
 
-| Model               |   Accuracy |  Precision |     Recall |         F1 |     ROC-AUC |
+| Model               |   Accuracy |  Precision |     Recall |     **F1** |     ROC-AUC |
 | ------------------- | ---------: | ---------: | ---------: | ---------: | ----------: |
 | **XGBoost**         | **99.75%** | **99.71%** | **99.83%** | **99.77%** | **99.995%** |
 | Linear SVM          |     99.64% |     99.61% |     99.73% |     99.67% |     99.966% |
@@ -286,7 +272,7 @@ Advanced classification models were evaluated using stratified cross-validation.
 
 ### XGBoost Hyperparameter Tuning
 
-`GridSearchCV` was used to tune XGBoost.
+`GridSearchCV` was used to tune the XGBoost model.
 
 Best parameters:
 
@@ -296,17 +282,17 @@ max_depth = 3
 n_estimators = 120
 ```
 
-Best tuned cross-validation F1:
+Best tuned CV F1:
 
 **99.77%**
 
-The tuned XGBoost model was saved as an artifact for subsequent evaluation.
+The tuned model was saved as a reusable artifact.
 
 ---
 
 ## Day 7 — Final Model Evaluation ✅
 
-The tuned XGBoost model was evaluated on the validation set and the held-out test set.
+The tuned XGBoost model was evaluated separately on validation and held-out test data.
 
 ### Validation Performance
 
@@ -328,7 +314,7 @@ The tuned XGBoost model was evaluated on the validation set and the held-out tes
 | **F1**    | **99.74%** |
 | ROC-AUC   | **99.98%** |
 
-### Classification Report
+### Test Classification Report
 
 | Class | Precision | Recall |     F1 |
 | ----- | --------: | -----: | -----: |
@@ -337,8 +323,8 @@ The tuned XGBoost model was evaluated on the validation set and the held-out tes
 
 Test set:
 
-* Fake samples: **1,791**
-* Real samples: **2,120**
+* Fake: **1,791**
+* Real: **2,120**
 * Total: **3,911**
 
 ### Confusion Matrix
@@ -362,37 +348,92 @@ Held-out test ROC-AUC:
 
 **99.98%**
 
-### Assignment Target
+### Target
 
 Required F1:
 
 **> 0.88**
 
-Achieved test F1:
+Achieved:
 
 **0.9974**
 
 ✅ **Target achieved**
 
-### Day 7 Artifacts
+---
+
+## Day 8 — SHAP Explainability ✅
+
+Day 8 focused on understanding the decisions made by the final XGBoost model.
+
+### SHAP Setup
+
+* XGBoost `TreeExplainer`
+* Exact **615-feature** model space recreated
+* 500 held-out test samples used for SHAP analysis
+* Random seed: **42**
+
+### SHAP Feature Space
 
 ```text
-results/day_07/
-├── confusion_matrix_xgboost_test.png
-├── roc_curve_xgboost_test.png
-├── model_comparison_f1.png
-├── day_07_final_results.csv
-├── day_07_final_results.joblib
-└── day_07_confusion_matrix.csv
+500 selected TF-IDF features
++
+115 auxiliary NLP features
+=
+615 total features
+```
+
+### Top SHAP Features
+
+| Rank | Feature              | Mean Absolute SHAP |
+| ---: | -------------------- | -----------------: |
+|    1 | `read more`          |           1.689772 |
+|    2 | `reuters`            |           1.528391 |
+|    3 | `washington reuters` |           1.046988 |
+|    4 | `featured image`     |           1.027853 |
+|    5 | `century wire`       |           0.977140 |
+|    6 | `getty`              |           0.536068 |
+|    7 | `said`               |           0.518828 |
+|    8 | `via`                |           0.418443 |
+|    9 | `nov`                |           0.405618 |
+|   10 | `W2V_044`            |           0.356393 |
+
+The SHAP analysis provides global feature importance as well as individual prediction explanations.
+
+### Individual Explanation Example
+
+Three held-out test samples were analyzed.
+
+One example was intentionally captured as a misclassified case:
+
+```text
+Actual: Real
+Predicted: Fake
+Real Probability: 0.257711
+Credibility Score: 25.77 / 100
+```
+
+### Day 8 Artifacts
+
+```text
+results/day_08/
+├── shap_feature_importance.csv
+├── shap_summary_bar.png
+├── shap_summary_beeswarm.png
+├── shap_force_plot_1.html
+├── shap_force_plot_2.html
+├── shap_force_plot_3.html
+├── shap_individual_explanations.csv
+└── day_08_shap_summary.json
 ```
 
 ---
 
-# 📈 Model Performance Overview
+# 📈 Overall Model Performance
 
-The best cross-validation F1 scores obtained so far are:
+Best cross-validation F1 scores:
 
-| Model               |         F1 |
+| Model               |      CV F1 |
 | ------------------- | ---------: |
 | Naive Bayes         |     95.71% |
 | Random Forest       |     99.15% |
@@ -401,45 +442,15 @@ The best cross-validation F1 scores obtained so far are:
 | Linear SVM          |     99.67% |
 | **XGBoost**         | **99.77%** |
 
-XGBoost is currently the best-performing model based on cross-validation F1.
+### Current Best Model
 
----
+**XGBoost**
 
-# 🔬 Upcoming Work
-
-## Day 8 — SHAP Explainability
-
-Planned:
-
-* SHAP TreeExplainer
-* Global feature importance
-* Feature contribution analysis
-* Individual prediction explanations
-* Word-level importance analysis
-* SHAP visualizations
-
-## Day 9 — Flask API & User Interface
-
-Planned:
-
-* Flask REST API
-* `/predict` endpoint
-* Real/Fake prediction
-* Credibility score
-* SHAP-based explanation
-* Gradio interface
-
-## Day 10 — Finalization
-
-Planned:
-
-* MLflow experiment tracking
-* PyTest test suite
-* Model card
-* Final documentation
-* Screenshots
-* Reproducibility verification
-* Project cleanup
+* Best CV F1: **99.77%**
+* Held-out Test F1: **99.74%**
+* Held-out Test ROC-AUC: **99.98%**
+* Required F1 target: **> 88%**
+* Target: ✅ **Achieved**
 
 ---
 
@@ -460,27 +471,17 @@ NewsGuard_Fake_News_Detection/
 │   ├── NewsGuard_Day_04_Auxiliary_NLP_Features.ipynb
 │   ├── NewsGuard_Day_05_Feature_Union_Baseline_Models.ipynb
 │   ├── NewsGuard_Day_06_Advanced_Models_and_Hyperparameter_Tuning.ipynb
-│   └── NewsGuard_Day_07_Final_Model_Evaluation.ipynb
+│   ├── NewsGuard_Day_07_Final_Model_Evaluation.ipynb
+│   └── NewsGuard_Day_08_SHAP_Explainability (1).ipynb
 │
 └── results/
     ├── day_05/
-    │   ├── day_05_baseline_results.csv
-    │   └── day_05_baseline_results.joblib
-    │
     ├── day_06/
-    │   ├── day_06_model_comparison.csv
-    │   ├── day_06_model_comparison.joblib
-    │   ├── day_06_xgboost_gridsearch.csv
-    │   └── day_06_xgboost_best_tuned.joblib
-    │
-    └── day_07/
-        ├── confusion_matrix_xgboost_test.png
-        ├── roc_curve_xgboost_test.png
-        ├── model_comparison_f1.png
-        ├── day_07_final_results.csv
-        ├── day_07_final_results.joblib
-        └── day_07_confusion_matrix.csv
+    ├── day_07/
+    └── day_08/
 ```
+
+Raw datasets and large generated feature files are intentionally excluded from GitHub.
 
 ---
 
@@ -496,39 +497,40 @@ The project follows these principles:
 * Artifact reload verification
 * Dataset integrity checks
 * Stratified cross-validation
-* Hyperparameter tuning using GridSearchCV
+* Hyperparameter tuning with GridSearchCV
 * Held-out validation and test evaluation
 * Separate final evaluation on unseen data
+* SHAP explainability using the saved best model
+* Reproducible result artifacts
 
-> **Development note:** Some Day 5–Day 6 cross-validation experiments use precomputed training features and reduced feature representations. These experiments are documented as development-stage model comparisons. The final validation/test evaluation was performed separately using the held-out splits.
+> **Development note:** Some Day 5–Day 6 experiments use precomputed or reduced feature representations for model comparison. These are documented as development-stage experiments. Final validation/test performance was measured separately on held-out data.
 
 ---
 
-# 📌 Current Project Result
+# 🚀 Upcoming Work
 
-### Best Model
+## Day 9 — Deployment & User Interface
 
-**XGBoost**
+Planned:
 
-### Best Cross-Validation F1
+* Flask REST API
+* `/predict` endpoint
+* Real/Fake prediction
+* Credibility score
+* SHAP-based explanation
+* Gradio interface
 
-**99.77%**
+## Day 10 — ML Finalization
 
-### Held-Out Test F1
+Planned:
 
-**99.74%**
-
-### Held-Out Test ROC-AUC
-
-**99.98%**
-
-### Required Target
-
-**F1 > 0.88**
-
-### Target Status
-
-✅ **Achieved**
+* MLflow experiment tracking
+* PyTest test suite
+* Model card
+* Final documentation
+* Screenshots
+* Reproducibility verification
+* Project cleanup
 
 ---
 
@@ -542,16 +544,23 @@ Panipat Institute of Engineering and Technology (PIET)
 
 ---
 
-## ⚠️ Project Status
+# 📌 Current Project Status
 
-NewsGuard has successfully completed:
+### Completed
 
-**Day 1 → Dataset & EDA**
-**Day 2 → Text Preprocessing**
-**Day 3 → TF-IDF Feature Engineering**
-**Day 4 → Auxiliary NLP Features**
-**Day 5 → FeatureUnion & Baseline Models**
-**Day 6 → Advanced Models & Hyperparameter Tuning**
-**Day 7 → Final Model Evaluation**
+**Day 1 → Dataset Setup & EDA** ✅
+**Day 2 → Text Preprocessing** ✅
+**Day 3 → TF-IDF Feature Engineering** ✅
+**Day 4 → Auxiliary NLP Features** ✅
+**Day 5 → FeatureUnion & Baseline Models** ✅
+**Day 6 → Advanced Models & Hyperparameter Tuning** ✅
+**Day 7 → Final Model Evaluation** ✅
+**Day 8 → SHAP Explainability** ✅
 
-🚧 **Next:** SHAP Explainability
+### Current Best Result
+
+**XGBoost — 99.74% Held-Out Test F1**
+
+🎯 **F1 Target > 0.88: ACHIEVED**
+
+🚧 **Next: Day 9 — Deployment & User Interface**
